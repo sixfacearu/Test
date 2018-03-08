@@ -1,3 +1,4 @@
+import "./erc20.sol";
 pragma solidity ^0.4.0;
 import "./safemath.sol";
 contract token{
