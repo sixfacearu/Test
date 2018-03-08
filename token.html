@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test</title>
+    <script src="web3.min.js"></script>
+    
+  </head>
+   <center><h2 align="center" style="color:blue;border:1px dotted black;width:500px;background:white;">ERC20 token</h2></center>
+  <body align="center" bgcolor=black">
+	
+	</div></br></center>
+       <center><div class="cls" style="width:700px;height:100px;background:orange;border:1px dotted black;"><h3>Transfer</h3>
+                <input id="a01" type="text" placeholder="toaddress" />
+                 <input id="a02" type="text" placeholder="values" />
+		<input type="button" onclick="transfer()" value="transfer" >
+	</center></div></br>
+       <center><div class="cls" style="width:700px;height:100px;background:orange;border:1px dotted black;text-align:center"><h3>mint</h3>
+                <input id="a03" type="text" placeholder="addedvalue" />
+		<input type="button" onclick="mint()" value="mint" >
+	</div></br></center>
+      <center><div class="cls" style="width:700px;height:100px;background:orange;border:1px dotted black;text-align:center"><h3>Balanceof</h3>
+                <input id="a04" type="text" placeholder="balance" />
+		<input type="button" onclick="balanceof()" value="Balanceof">
+               
+	</div></br></center>
+     
+      
+</body>
+<script>
+   
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        var bank = web3.eth.contract([
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "who",
+				"type": "address"
+			}
+		],
+		"name": "balanceof",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]);
+        var mycont = bank.at('0xa85fb13b1d3432f1c1eabc3848d895a126d47e48');
+    
+     if(!web3.isConnected()) {
+  
+        console.log("Ok");
+        
+      } else {
+        console.log("no");
+      }
+      web3.version.getNetwork((err, netId) => {
+            switch (netId) {
+              case "1":
+                console.log('This is mainnet')
+                break
+              case "2":
+                console.log('This is the deprecated Morden test network.')
+                break
+              case "3":
+                console.log('This is the ropsten test network.')
+                break
+              case "4":
+                console.log('This is the Rinkeby test network.')
+                break
+              case "42":
+                console.log('This is the Kovan test network.')
+                break
+              default:
+                console.log('This is an unknown network.')
+            }
+        })
+
+function mint()
+{
+	 var b=document.getElementById("a03").value;
+	return mycont.mint(b,function(error,result)
+	{
+		if(!error)
+		{
+			alert(result);
+		}else
+		{
+			console.error(error);
+		}
+	});
+
+}
+
+function transfer()
+{
+	 var c=document.getElementById("a01").value;
+	  var d=document.getElementById("a02").value;
+		return mycont.transfer(c,d,function(error,result)
+		{
+			if(!error)
+			{
+				alert(result);
+			}else
+			{
+				console.error(error);
+			}
+		});
+
+}
+function balanceof()
+{
+	  var s=document.getElementById("a04").value;
+	return mycont.balanceOf(s,function(error,result)
+	{
+		if(!error)
+		{
+			alert(result);
+		}else
+		{
+			console.error(error);
+		}
+	});
+//alert("done!....");
+}
+
+  
+</script>
+</html>
